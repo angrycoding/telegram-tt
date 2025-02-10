@@ -6,9 +6,10 @@ type OwnProps = {
   containerSelector?: string;
   className?: string;
   children: VirtualElement;
+  prepend?: boolean
 };
 
-const Portal: FC<OwnProps> = ({ containerSelector, className, children }) => {
+const Portal: FC<OwnProps> = ({ containerSelector, className, children, prepend }) => {
   const elementRef = useRef<HTMLDivElement>();
   if (!elementRef.current) {
     elementRef.current = document.createElement('div');
@@ -25,7 +26,11 @@ const Portal: FC<OwnProps> = ({ containerSelector, className, children }) => {
       element.classList.add(className);
     }
 
-    container.appendChild(element);
+    if (prepend) {
+      container.prepend(element)
+    } else {
+      container.appendChild(element);
+    }
 
     return () => {
       TeactDOM.render(undefined, element);
