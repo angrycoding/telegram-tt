@@ -2,7 +2,7 @@ import type { FC } from '../../../lib/teact/teact';
 import React, {
   memo, useEffect, useRef, useState,
 } from '../../../lib/teact/teact';
-import { getActions } from '../../../global';
+import { getActions, withGlobal } from '../../../global';
 
 import type { FolderEditDispatch } from '../../../hooks/reducers/useFoldersReducer';
 import type { SettingsScreens } from '../../../types';
@@ -27,6 +27,8 @@ import ForumPanel from './ForumPanel';
 import LeftMainHeader from './LeftMainHeader';
 
 import './LeftMain.scss';
+import FoldersSidebar, { useFoldersSidebar } from './FoldersSidebar';
+import { ApiChatFolder } from '../../../api/types';
 
 type OwnProps = {
   content: LeftColumnContent;
@@ -51,7 +53,11 @@ const BUTTON_CLOSE_DELAY_MS = 250;
 
 let closeTimeout: number | undefined;
 
-const LeftMain: FC<OwnProps> = ({
+type StateProps = {
+  chatFoldersById: Record<number, ApiChatFolder>;
+};
+
+const LeftMain: FC<OwnProps & StateProps> = ({
   content,
   searchQuery,
   searchDate,
@@ -67,7 +73,10 @@ const LeftMain: FC<OwnProps> = ({
   onSettingsScreenSelect,
   onReset,
   onTopicSearch,
+  chatFoldersById
 }) => {
+
+  const showFoldersSidebar = Boolean(useFoldersSidebar()[0] && Object.values(chatFoldersById).length > 0);
   const { closeForumPanel } = getActions();
   const [isNewChatButtonShown, setIsNewChatButtonShown] = useState(IS_TOUCH_ENV);
   const [isElectronAutoUpdateEnabled, setIsElectronAutoUpdateEnabled] = useState(false);
@@ -164,13 +173,19 @@ const LeftMain: FC<OwnProps> = ({
 
   const lang = useOldLang();
 
-  return (
+
+  return <div>
+
+    {showFoldersSidebar && <FoldersSidebar />}
+    
+
     <div
       id="LeftColumn-main"
       onMouseEnter={!IS_TOUCH_ENV ? handleMouseEnter : undefined}
       onMouseLeave={!IS_TOUCH_ENV ? handleMouseLeave : undefined}
     >
       <LeftMainHeader
+        foldersSideBar={showFoldersSidebar}
         shouldHideSearch={isForumPanelVisible}
         content={content}
         contactsFilter={contactsFilter}
@@ -182,6 +197,7 @@ const LeftMain: FC<OwnProps> = ({
         shouldSkipTransition={shouldSkipTransition}
         isClosingSearch={isClosingSearch}
       />
+      
       <Transition
         name={shouldSkipTransition ? 'none' : 'zoomFade'}
         renderCount={TRANSITION_RENDER_COUNT}
@@ -196,6 +212,7 @@ const LeftMain: FC<OwnProps> = ({
             case LeftColumnContent.ChatList:
               return (
                 <ChatFolders
+                  hideTabs={showFoldersSidebar}
                   shouldHideFolderTabs={isForumPanelVisible}
                   onSettingsScreenSelect={onSettingsScreenSelect}
                   onLeftColumnContentChange={onContentChange}
@@ -245,7 +262,18 @@ const LeftMain: FC<OwnProps> = ({
         onNewGroup={handleSelectNewGroup}
       />
     </div>
-  );
+  </div>;
 };
 
-export default memo(LeftMain);
+export default memo(withGlobal<OwnProps>(
+  (global): StateProps => {
+    const {
+      chatFolders: {
+        byId: chatFoldersById,
+      },
+    } = global;
+    return {
+      chatFoldersById
+    };
+  },
+)(LeftMain));
