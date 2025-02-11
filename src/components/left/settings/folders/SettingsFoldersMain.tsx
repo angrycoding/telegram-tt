@@ -27,6 +27,9 @@ import Button from '../../../ui/Button';
 import Draggable from '../../../ui/Draggable';
 import ListItem from '../../../ui/ListItem';
 import Loading from '../../../ui/Loading';
+import Radio from '../../../ui/Radio';
+import { useFoldersSidebar } from '../../main/FoldersSidebar';
+import RadioGroup from '../../../ui/RadioGroup';
 
 type OwnProps = {
   isActive?: boolean;
@@ -70,6 +73,8 @@ const SettingsFoldersMain: FC<OwnProps & StateProps> = ({
     openDeleteChatFolderModal,
     sortChatFolders,
   } = getActions();
+
+  const [ showFoldersSidebar, setShowFoldersSidebar ] = useFoldersSidebar();
 
   const [state, setState] = useState<SortState>({
     orderedFolderIds: folderIds,
@@ -367,6 +372,29 @@ const SettingsFoldersMain: FC<OwnProps & StateProps> = ({
           ))}
         </div>
       )}
+
+      <div className="settings-item pt-3">
+        <h4 className="settings-item-header mb-3" dir={lang.isRtl ? 'rtl' : undefined}>
+          Tabs View
+        </h4>
+
+
+          <RadioGroup
+            selected={showFoldersSidebar ? 'left' : 'top'}
+            name="reactions"
+            options={[{
+              value: 'left',
+              label: lang('Tabs on the left'),
+            }, {
+              value: 'top',
+              label: lang('Tabs on the top'),
+            }]}
+            onChange={value => setShowFoldersSidebar(value === 'left')}
+          />
+      </div>
+
+
+
     </div>
   );
 };
