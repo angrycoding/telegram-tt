@@ -37,7 +37,7 @@ const Portal: FC<OwnProps> = ({ containerSelector, className, children, prepend,
       TeactDOM.render(undefined, element);
       container.removeChild(element);
     };
-  }, [className, containerSelector]);
+  }, [className, containerSelector, prepend, renderChildrenOnly]);
 
   return renderChildrenOnly ? children : TeactDOM.render(children, elementRef.current);
 };
