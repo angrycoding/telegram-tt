@@ -18,6 +18,7 @@ type OwnProps = {
   success?: string;
   disabled?: boolean;
   readOnly?: boolean;
+  focused?: boolean
   placeholder?: string;
   autoComplete?: string;
   maxLength?: number;
@@ -39,6 +40,7 @@ const InputText: FC<OwnProps> = ({
   value,
   label,
   error,
+  focused,
   success,
   disabled,
   readOnly,
@@ -71,7 +73,7 @@ const InputText: FC<OwnProps> = ({
     <div className={fullClassName} dir={lang.isRtl ? 'rtl' : undefined}>
       <input
         ref={ref}
-        className="form-control"
+        className={['form-control', focused && 'focus'].filter(Boolean).join(' ')}
         type="text"
         id={id}
         dir="auto"
