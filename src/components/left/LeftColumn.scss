@@ -29,6 +29,9 @@
     @media (max-width: 600px) {
       max-width: calc(100% - 3rem);
     }
+    &--fullwidth {
+      max-width: 100%;
+    }
   }
 
   @media (max-width: 600px) {
