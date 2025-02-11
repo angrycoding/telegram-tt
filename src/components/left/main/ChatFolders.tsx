@@ -39,6 +39,7 @@ type OwnProps = {
   onLeftColumnContentChange: (content: LeftColumnContent) => void;
   shouldHideFolderTabs?: boolean;
   isForumPanelOpen?: boolean;
+  hideTabs?: boolean
 };
 
 type StateProps = {
@@ -81,7 +82,9 @@ const ChatFolders: FC<OwnProps & StateProps> = ({
   archiveSettings,
   isStoryRibbonShown,
   sessions,
+  hideTabs
 }) => {
+
   const {
     loadChatFolders,
     setActiveChatFolder,
@@ -322,6 +325,7 @@ const ChatFolders: FC<OwnProps & StateProps> = ({
     );
   }
 
+
   const shouldRenderFolders = folderTabs && folderTabs.length > 1;
 
   return (
@@ -330,6 +334,7 @@ const ChatFolders: FC<OwnProps & StateProps> = ({
       className={buildClassName(
         'ChatFolders',
         shouldRenderFolders && shouldHideFolderTabs && 'ChatFolders--tabs-hidden',
+        hideTabs && 'ChatFolders--tabs-none',
         shouldRenderStoryRibbon && 'with-story-ribbon',
       )}
     >
