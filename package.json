@@ -27,6 +27,7 @@
     "lang:ts": "tsx ./dev/generateLangTypes.js",
     "lang:initial": "tsx ./dev/generateInitialLangFallback.js",
     "icons:build": "fantasticon",
+    "foldericons:build": "tsx ./dev/buildFolderIcons.ts",
     "test": "cross-env APP_ENV=test jest --verbose --silent --forceExit",
     "test:playwright": "playwright test",
     "test:record": "playwright codegen localhost:1235",
@@ -138,6 +139,7 @@
     "big-integer": "github:painor/BigInteger.js",
     "croppie": "^2.6.5",
     "emoji-data-ios": "git+https://github.com/korenskoy/emoji-data-ios#de1a69aff2c8eb7548df4e6bcf50c7d2304792fc",
+    "fs-extra": "^11.3.0",
     "idb-keyval": "^6.2.1",
     "lowlight": "^2.9.0",
     "mp4box": "^0.5.2",
@@ -146,6 +148,7 @@
     "pako": "^2.1.0",
     "path-browserify": "^1.0.1",
     "qr-code-styling": "github:zubiden/qr-code-styling#dbbfed0",
+    "replace-color": "^2.3.0",
     "v8-compile-cache": "^2.4.0"
   },
   "optionalDependencies": {

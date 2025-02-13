@@ -27,7 +27,7 @@ import ForumPanel from './ForumPanel';
 import LeftMainHeader from './LeftMainHeader';
 
 import './LeftMain.scss';
-import FoldersSidebar, { useFoldersSidebar } from './FoldersSidebar';
+import FoldersSidebar, { useFoldersSidebar } from './FoldersSidebar/FoldersSidebar';
 import { ApiChatFolder } from '../../../api/types';
 
 type OwnProps = {

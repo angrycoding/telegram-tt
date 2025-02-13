@@ -1,5 +1,6 @@
+import fs from 'fs';
 import path from 'path';
-import { EnvironmentPlugin } from 'webpack';
+import { EnvironmentPlugin, DefinePlugin } from 'webpack';
 
 import { PRODUCTION_URL } from './src/config';
 
@@ -36,6 +37,15 @@ export default {
       BASE_URL,
       IS_PREVIEW: false,
     }),
+
+    new DefinePlugin({
+      FOLDER_ICONS: JSON.stringify(
+        fs.readdirSync(path.resolve(__dirname, 'public/folder-icons'))
+        .sort((a, b) => parseInt(a) - parseInt(b))
+        .filter(name => name.endsWith('.png'))
+        .map(name => `/folder-icons/${name}`)
+      ),
+    })
   ],
 
   module: {

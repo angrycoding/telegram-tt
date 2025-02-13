@@ -1,101 +1,100 @@
 .outerWrapper {
-	width: 100%;
-	position: relative;
-	& > *:first-child {
-		margin: 0px;
-		pointer-events: none;
-	}
+  width: 100%;
+  position: relative;
+  & > *:first-child {
+    margin: 0px;
+    pointer-events: none;
+  }
 }
 
 .innerWrapper {
-	position: absolute;
-	inset: 0px;
-	display: flex;
-	align-items: center;
+  position: absolute;
+  inset: 0px;
+  display: flex;
+  align-items: center;
 
-	input {
-		border: 0px;
-		outline: 0px;
-		background-color: transparent;
-	}
+  input {
+    border: 0px;
+    outline: 0px;
+    background-color: transparent;
+  }
 
-	& > *:nth-child(1), & > *:nth-child(3) {
-		margin-left: 8px;
-		margin-right: 8px;
-		aspect-ratio: 1/1;
-		height: calc(100% - 8px - 8px);
-		.button {
-			position: absolute;
-			width: 100% !important;
-			height: 100% !important;
-		}
-	}
+  & > *:nth-child(1), & > *:nth-child(3) {
+    margin-left: 8px;
+    margin-right: 8px;
+    aspect-ratio: 1/1;
+    height: calc(100% - 8px - 8px);
+    .button {
+      position: absolute;
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
 
-	& > *:nth-child(2) {
-		width: 100%;
-	}
+  & > *:nth-child(2) {
+    width: 100%;
+  }
 
-	.buttonIcon {
-		position: absolute;
-		inset: 0px;
-	}
+  .buttonIcon {
+    position: absolute;
+    inset: 0px;
+  }
 
-	*[style^='--maskicon'] {
-		mask-image: var(--maskicon);
-		mask-position: center;
-		mask-repeat: no-repeat;
-		mask-size: 85%;
-		background-color: currentColor;
-	}
-	
-	  *[style^='--bgicon'] {
-		background-image: var(--bgicon);
-		background-position: center;
-		background-repeat: no-repeat;
-		background-size: 85%;
-	  }
+  *[style^='--maskicon'] {
+    mask-image: var(--maskicon);
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: 85%;
+    background-color: currentColor;
+  }
 
+  *[style^='--bgicon'] {
+    background-image: var(--bgicon);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 85%;
+  }
 }
 
 .pickerTab {
-	// width: 300px;
-	height: 300px;
-	overflow: auto;
+  // width: 300px;
+  height: 300px;
+  overflow: auto;
 }
 
 .emojiGridOuter {
-	padding: 10px;
-	& > *:first-child {
-		text-align: left;
-		font-size: 85%;
-		color: gray;
-		margin-bottom: 6px;
-	}
+  padding: 10px;
+  & > *:first-child {
+    text-align: left;
+    font-size: 85%;
+    color: gray;
+    margin-bottom: 6px;
+  }
 }
 
 .emojiGridInner {
-	overflow: auto;
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-	& > * {
-		aspect-ratio: 1/1;
-		min-width: 40px;
-		display: flex;
-		cursor: pointer;
-		border-radius: 4px;
-		align-items: center;
-		justify-content: center;
-		align-content: center;
-		mask-image: var(--icon);
-		mask-position: center;
-		mask-repeat: no-repeat;
-		mask-size: contain;
-		color: transparent;
-		font-size: 0px;
-		background-color: rgba(gray, 0.6);
-		&:hover {
-			background-color: rgba(gray, 1);
-		}
-	}
+  overflow: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  & > * {
+    aspect-ratio: 1/1;
+    min-width: 40px;
+    display: flex;
+    cursor: pointer;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    mask-image: var(--icon);
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    color: transparent;
+    font-size: 0px;
+    background-color: rgba(gray, 0.6);
+    &:hover {
+      background-color: rgba(gray, 1);
+    }
+  }
 }

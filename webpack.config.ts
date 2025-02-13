@@ -1,5 +1,5 @@
 import 'webpack-dev-server';
-
+import fs from 'fs';
 import StatoscopeWebpackPlugin from '@statoscope/webpack-plugin';
 import dotenv from 'dotenv';
 import { GitRevisionPlugin } from 'git-revision-webpack-plugin';
@@ -215,6 +215,14 @@ export default function createConfig(
       }),
       // Updates each dev re-build to provide current git branch or commit hash
       new DefinePlugin({
+        
+        FOLDER_ICONS: JSON.stringify(
+          fs.readdirSync(path.resolve(__dirname, 'public/folder-icons'))
+          .sort((a, b) => parseInt(a) - parseInt(b))
+          .filter(name => name.endsWith('.png'))
+          .map(name => `/folder-icons/${name}`)
+        ),
+
         APP_VERSION: JSON.stringify(appVersion),
         APP_REVISION: DefinePlugin.runtimeValue(() => {
           const { branch, commit } = getGitMetadata();

@@ -28,7 +28,7 @@ import Draggable from '../../../ui/Draggable';
 import ListItem from '../../../ui/ListItem';
 import Loading from '../../../ui/Loading';
 import Radio from '../../../ui/Radio';
-import { useFoldersSidebar } from '../../main/FoldersSidebar';
+import { useFoldersSidebar } from '../../main/FoldersSidebar/FoldersSidebar';
 import RadioGroup from '../../../ui/RadioGroup';
 
 type OwnProps = {

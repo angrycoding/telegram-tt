@@ -3,14 +3,12 @@ $iconSize: 48px;
 $normalColor: #707478;
 
 .wrapper {
-  
   background-color: #262626;
   color: $normalColor;
   display: flex;
   flex-direction: column;
   min-width: $sidebarWidth;
   max-width: $sidebarWidth;
-
   & > * {
     position: relative;
     cursor: pointer;
@@ -18,8 +16,6 @@ $normalColor: #707478;
       position: relative;
     }
   }
-
-  
   & > *:hover, & > *[data-active="true"] {
     &::before {
       content: '';
@@ -29,10 +25,6 @@ $normalColor: #707478;
       background-color: rgba(black, 0.5);
     }
   }
-
-
- 
-  
 }
 
 // menu button styling
@@ -65,7 +57,6 @@ $normalColor: #707478;
       border-radius: 0px;
     }
   }
-
 }
 
 // disable folder icons when we have back button
@@ -96,7 +87,7 @@ $normalColor: #707478;
   &[data-active="true"] {
     color: #5eb5f7;
     &, * {
-      cursor: default !important
+      cursor: default !important;
     }
   }
 }
@@ -108,7 +99,6 @@ $normalColor: #707478;
   max-width: $iconSize;
   max-height: $iconSize;
   position: relative;
-
   &::before {
     content: '';
     position: absolute;
@@ -120,8 +110,6 @@ $normalColor: #707478;
     color: currentColor;
     font-size: calc($iconSize / 100 * 70);
   }
-
-
   &[style^='--maskicon']::before {
     mask-image: var(--maskicon);
     mask-position: center;
@@ -129,21 +117,18 @@ $normalColor: #707478;
     mask-size: contain;
     background-color: currentColor;
   }
-
   &[style^='--bgicon']::before {
     background-image: var(--bgicon);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
   }
-
   &::after {
     content: '';
     position: absolute;
     // border: 1px solid red;
     inset: 0px;
   }
-
 }
 
 // button's label
@@ -166,14 +151,11 @@ $normalColor: #707478;
   justify-content: center;
   align-content: center;
   text-align: center;
-
   border: 2px solid #262626;
-
   padding-left: 2px;
   padding-right: 2px;
   min-width: calc($sidebarWidth / 100 * 29);
   min-height: calc($sidebarWidth / 100 * 29);
-
   &::before {
     color: white !important;
     position: static !important;

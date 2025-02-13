@@ -28,9 +28,9 @@ import GroupChatInfo from '../../../common/GroupChatInfo';
 import Icon from '../../../common/icons/Icon';
 import PrivateChatInfo from '../../../common/PrivateChatInfo';
 import FloatingActionButton from '../../../ui/FloatingActionButton';
-import InputText from '../../../ui/InputText';
 import ListItem from '../../../ui/ListItem';
 import Spinner from '../../../ui/Spinner';
+import FolderNameInput from './FolderNameInput';
 
 type OwnProps = {
   state: FoldersState;
@@ -62,6 +62,8 @@ const INITIAL_CHATS_LIMIT = 5;
 
 export const ERROR_NO_TITLE = 'Please provide a title for this folder.';
 export const ERROR_NO_CHATS = 'ChatList.Filter.Error.Empty';
+
+
 
 const SettingsFoldersEdit: FC<OwnProps & StateProps> = ({
   state,
@@ -151,9 +153,12 @@ const SettingsFoldersEdit: FC<OwnProps & StateProps> = ({
     onBack,
   });
 
-  const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    const { currentTarget } = event;
-    dispatch({ type: 'setTitle', payload: currentTarget.value.trim() });
+  const handleChangeTitle = useCallback((title: string) => {
+    dispatch({ type: 'setTitle', payload: title });
+  }, [dispatch]);
+
+  const handleChangeIcon = useCallback((icon?: string) => {
+    dispatch({ type: 'setEmoticon', payload: icon });
   }, [dispatch]);
 
   const handleSubmit = useCallback(() => {
@@ -236,6 +241,14 @@ const SettingsFoldersEdit: FC<OwnProps & StateProps> = ({
     );
   }
 
+  const setFolderIcon = (event: React.MouseEvent) => {
+    const { target } = event;
+    if (!(target instanceof HTMLElement)) return;
+    const { innerText } = target;
+    if (!innerText.length) return;
+    dispatch({ type: 'setEmoticon', payload: innerText });
+  }
+
   function renderChats(mode: 'included' | 'excluded') {
     const selectedChatTypes = mode === 'included' ? includedChatTypes : excludedChatTypes;
     const visibleChatIds = mode === 'included' ? visibleIncludedChatIds : visibleExcludedChatIds;
@@ -296,13 +309,15 @@ const SettingsFoldersEdit: FC<OwnProps & StateProps> = ({
             </p>
           )}
 
-          <InputText
-            className="mb-0"
+          <FolderNameInput
+            maxLength={12}
             label={lang('FilterNameHint')}
-            value={state.folder.title.text}
-            onChange={handleChange}
-            error={state.error && state.error === ERROR_NO_TITLE ? ERROR_NO_TITLE : undefined}
+            title={state.folder.title.text}
+            onSetTitle={handleChangeTitle}
+            icon={state.folder.emoticon || '📁'}
+            onSetIcon={handleChangeIcon}
           />
+
         </div>
 
         {!isOnlyInvites && (
