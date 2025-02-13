@@ -1,3 +1,45 @@
+# Folders sidebar
+
+Desktop version has it's own set of folder icons: https://github.com/telegramdesktop/tdesktop/tree/dev/Telegram/Resources/icons/folders
+In order to make web version a little bit more consistent, I've made a script to upload desktop version icons and preprocess it, so it can be used by the web version.
+
+```sh
+  npm run foldericons:build
+```
+
+This will do some hacky magic, upload icons and put them into ```public/folder-icons```
+
+In case if the emoji is missing in this desktop icon set, it will fallback to the emoji "as it is", rendered using SVG. Of course it's going to be ugly
+when this monochrome icons and color icons will meet together in the same time, but I guess it won't happen + it's not a production version, so I guess
+it's acceptable in our situtation. Here is the comparison of web / desktop version:
+
+![image](https://github.com/user-attachments/assets/e68d4c69-90cb-479e-a189-24b94d7bb4be)
+
+Also I've made an effort to make this as a preference:
+
+![image](https://github.com/user-attachments/assets/07776440-b6e6-4c0b-922c-7e36b18cd93e)
+
++ quick access to the folder settings at the bottom of the sidebar panel:
+
+![image](https://github.com/user-attachments/assets/ef5b503c-35fa-45a1-9eae-b9fd7f139703)
+
+Support for desktop icons + emojis in the folder's name:
+
+![image](https://github.com/user-attachments/assets/26f16db9-e59f-4153-afe5-44fed5f04c49)
+
+Properly count folder name length (based on UTF codepoints rather than string length), look at this 12 emojis:
+
+![image](https://github.com/user-attachments/assets/e6912cc2-e26f-4b82-a50e-d9aaf9880754)
+
+![image](https://github.com/user-attachments/assets/b7d63c1a-4e3d-4f08-9b5f-145c42ccf773)
+
+Disable sidebar buttons when in the search mode:
+
+![image](https://github.com/user-attachments/assets/92ad743a-380c-42c0-afba-2ccc3954324f)
+
+
+--------------------------------------------------------------------------------
+
 # Telegram Web A
 
 This project won the first prize 🥇 at [Telegram Lightweight Client Contest](https://contest.com/javascript-web-3) and now is an official Telegram client available to anyone at [web.telegram.org/a](https://web.telegram.org/a).
