@@ -1,0 +1,184 @@
+$sidebarWidth: 70px;
+$iconSize: 48px;
+$normalColor: #707478;
+
+.wrapper {
+  
+  background-color: #262626;
+  color: $normalColor;
+  display: flex;
+  flex-direction: column;
+  min-width: $sidebarWidth;
+  max-width: $sidebarWidth;
+
+  & > * {
+    position: relative;
+    cursor: pointer;
+    & > * {
+      position: relative;
+    }
+  }
+
+  
+  & > *:hover, & > *[data-active="true"] {
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0px;
+      z-index: 0;
+      background-color: rgba(black, 0.5);
+    }
+  }
+
+
+ 
+  
+}
+
+// menu button styling
+.menuButton {
+  aspect-ratio: 1/1;
+
+  & > *:nth-child(1), & > *:nth-child(2) {
+    font-size: calc($sidebarWidth / 100 * 50);
+    pointer-events: none;
+    position: absolute;
+    inset: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+  }
+
+  &:has(:global(.state-back)) > *:nth-child(1) {
+    display: none;
+  }
+
+  &:not(:has(:global(.state-back))) > *:nth-child(2) {
+    display: none;
+  }
+
+  & > *:nth-child(3) {
+    button {
+      min-width: $sidebarWidth;
+      min-height: $sidebarWidth;
+      border-radius: 0px;
+    }
+  }
+
+}
+
+// disable folder icons when we have back button
+.wrapper:has(:global(.state-back)) .button {
+  opacity: 0.65;
+  pointer-events: none;
+  &::before {
+    display: none;
+  }
+}
+
+// to keep space between top and bottom buttons
+.spacer {
+  flex: 1;
+  pointer-events: none;
+}
+
+.button {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  // gap: 6px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+  &[data-active="true"] {
+    color: #5eb5f7;
+    &, * {
+      cursor: default !important
+    }
+  }
+}
+
+// button's icon
+.icon {
+  min-width: $iconSize;
+  min-height: $iconSize;
+  max-width: $iconSize;
+  max-height: $iconSize;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    color: currentColor;
+    font-size: calc($iconSize / 100 * 70);
+  }
+
+
+  &[style^='--maskicon']::before {
+    mask-image: var(--maskicon);
+    mask-position: center;
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    background-color: currentColor;
+  }
+
+  &[style^='--bgicon']::before {
+    background-image: var(--bgicon);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    // border: 1px solid red;
+    inset: 0px;
+  }
+
+}
+
+// button's label
+.label {
+  font-size: 70%;
+  word-break: break-all;
+  overflow: hidden;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.badge {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: currentColor;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+
+  border: 2px solid #262626;
+
+  padding-left: 2px;
+  padding-right: 2px;
+  min-width: calc($sidebarWidth / 100 * 29);
+  min-height: calc($sidebarWidth / 100 * 29);
+
+  &::before {
+    color: white !important;
+    position: static !important;
+    content: attr(data-value);
+    font-size: calc($sidebarWidth / 100 * 12) !important;
+    line-height: calc($sidebarWidth / 100 * 12) !important;
+  }
+}
