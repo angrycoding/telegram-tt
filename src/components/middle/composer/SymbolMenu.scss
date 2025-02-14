@@ -277,7 +277,7 @@
 .symbol-set-container {
   display: grid !important;
   justify-content: space-between;
-  grid-template-columns: repeat(auto-fill, var(--emoji-size, 4.5rem));
+  grid-template-columns: repeat(var(--emojisPerRow), 1fr);
   row-gap: 0.25rem;
   column-gap: var(--symbol-set-gap-size, 0.625rem);
   text-align: initial;
