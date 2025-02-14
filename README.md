@@ -58,7 +58,7 @@ My implementation removes parent blockquote:
 ![image](https://github.com/user-attachments/assets/19f66add-b85e-4d37-826a-b5fb2190d098)
 
 
-# Folders sidebar
+# Introduce the new Chat Folders appearance based on the provided mockups (https://t.me/contest/398)
 
 Desktop version has it's own set of folder icons: https://github.com/telegramdesktop/tdesktop/tree/dev/Telegram/Resources/icons/folders
 In order to make web version a little bit more consistent, I've made a script to upload desktop version icons and preprocess it, so it can be used by the web version.
