@@ -556,6 +556,13 @@ const Composer: FC<OwnProps & StateProps> = ({
     insertHtmlAndUpdateCursor(newHtml, inInputId);
   });
 
+  const pasteFormattedTextAndUpdateCursor = useLastCallback((
+    text: ApiFormattedText
+  ) => {
+    const newHtml = getTextWithEntitiesAsHtml(text);
+    document.execCommand('insertHTML', false, newHtml);
+  });
+
   const insertCustomEmojiAndUpdateCursor = useLastCallback((emoji: ApiSticker, inInputId: string = editableInputId) => {
     insertHtmlAndUpdateCursor(buildCustomEmojiHtml(emoji), inInputId);
   });
@@ -858,7 +865,7 @@ const Composer: FC<OwnProps & StateProps> = ({
 
   useClipboardPaste(
     isForCurrentMessageList || isInStoryViewer,
-    insertFormattedTextAndUpdateCursor,
+    pasteFormattedTextAndUpdateCursor,
     handleSetAttachments,
     setNextText,
     editingMessage,
