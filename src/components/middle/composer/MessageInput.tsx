@@ -46,6 +46,49 @@ const TRANSITION_DURATION_FACTOR = 50;
 const SCROLLER_CLASS = 'input-scroller';
 const INPUT_WRAPPER_CLASS = 'message-input-wrapper';
 
+
+
+const checkAtBeginningOrEndOfBlockQuote = (event: React.KeyboardEvent) => new Promise<{
+  target: HTMLElement,
+  kind: -1 | 1
+} | void>((resolve) => {
+
+  const { key, target } = event;
+  const isUp = key === 'ArrowUp';
+  const isDown = key === 'ArrowDown';
+  if (!isUp && !isDown || !(target instanceof HTMLElement)) return resolve();
+
+
+  do {
+
+    const selection = window.getSelection();
+    if (!selection) break;
+    const { anchorNode, anchorOffset } = selection;
+    if (!(anchorNode instanceof Text)) break;
+    if (!target.contains(anchorNode)) break;
+
+
+
+    const parentElement = anchorNode.parentElement;
+    if (!(parentElement instanceof HTMLQuoteElement)) break;
+
+    if (isUp && anchorOffset === 0 && !parentElement.previousSibling) return resolve({
+      target: parentElement,
+      kind: -1
+    });
+
+    if (isDown && anchorOffset === anchorNode.length && !parentElement.nextSibling) return resolve({
+      target: parentElement,
+      kind: 1
+    });
+    
+
+
+  } while (0);
+
+  resolve();
+});
+
 type OwnProps = {
   ref?: RefObject<HTMLDivElement>;
   id: string;
@@ -382,6 +425,23 @@ const MessageInput: FC<OwnProps & StateProps> = ({
   function handleKeyDown(e: React.KeyboardEvent<HTMLDivElement>) {
     // https://levelup.gitconnected.com/javascript-events-handlers-keyboard-and-load-events-1b3e46a6b0c3#1960
     const { isComposing } = e;
+
+    checkAtBeginningOrEndOfBlockQuote(e).then((obj) => {
+      if (!obj) return;
+      const { kind, target } = obj;
+
+      if (kind === -1) {
+        target.before(new Text('\n'))
+      } else if (kind === 1) {
+        target.after(new Text('\n'));
+      }
+
+
+      if (inputRef.current) {
+        inputRef.current.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+
+    })
 
     const html = getHtml();
     if (!isComposing && !html && (e.metaKey || e.ctrlKey)) {

@@ -40,6 +40,7 @@ interface ISelectedTextFormats {
   strikethrough?: boolean;
   monospace?: boolean;
   spoiler?: boolean;
+  quote?: boolean
 }
 
 const TEXT_FORMAT_BY_TAG_NAME: Record<string, keyof ISelectedTextFormats> = {
@@ -50,6 +51,7 @@ const TEXT_FORMAT_BY_TAG_NAME: Record<string, keyof ISelectedTextFormats> = {
   U: 'underline',
   DEL: 'strikethrough',
   CODE: 'monospace',
+  BLOCKQUOTE: 'quote',
   SPAN: 'spoiler',
 };
 const fragmentEl = document.createElement('div');
@@ -292,6 +294,36 @@ const TextFormatter: FC<OwnProps> = ({
     onClose();
   });
 
+  const handleQuoteText = useLastCallback(() => {
+
+    if (selectedTextFormats.quote) {
+      let element = getSelectedElement();
+      if (!element) return;
+
+
+      if (element.tagName !== 'BLOCKQUOTE') {
+        element = element.closest('blockquote');
+      }
+
+      if (element?.tagName !== 'BLOCKQUOTE') return;
+
+      if (!element.innerHTML) return;
+
+      element.replaceWith(...element.childNodes);
+
+      setSelectedTextFormats((selectedFormats) => ({
+        ...selectedFormats,
+        quote: false,
+      }));
+
+      return;
+    }
+
+    const text = getSelectedText(true);    
+    document.execCommand('insertHTML', false, `<blockquote class="blockquote">${text}</blockquote>`);
+    onClose();
+  });
+
   const handleMonospaceText = useLastCallback(() => {
     if (selectedTextFormats.monospace) {
       const element = getSelectedElement();
@@ -465,6 +497,16 @@ const TextFormatter: FC<OwnProps> = ({
         >
           <Icon name="monospace" />
         </Button>
+        
+        <Button
+          color="translucent"
+          ariaLabel="Quote"
+          className={getFormatButtonClassName('quote')}
+          onClick={handleQuoteText}
+        >
+          <Icon name="quote" />
+        </Button>
+
         <div className="TextFormatter-divider" />
         <Button color="translucent" ariaLabel={lang('TextFormat.AddLinkTitle')} onClick={openLinkControl}>
           <Icon name="link" />
