@@ -27,12 +27,15 @@ So obviously my fix is based on execCommand/insertHTML
 
 Consists of several things:
 1) Make sure that popup menu contains this new "quote" button, make sure that this "quote" button reflects proper state (turned on or off) based on the current context (whether or not our caret is inside the blockquote).
+
 ![image](https://github.com/user-attachments/assets/e4093195-f2c5-4b90-b57b-d3f64bbe5b24)
 
-2) Wrap / unwrap selected text into <blockquote /> html element when this button is pressed
+2) Wrap / unwrap selected text into ```<blockquote />``` html element when this button is pressed
+
 ![image](https://github.com/user-attachments/assets/0b20bda9-ccc5-4201-b39b-d933f6297259)
 
 3) Make sure that pressing up / down buttons while being at the beginning / end of the quote will insert new line before or after the quote so that the regular text can be inserted before or after it.
+
 ![image](https://github.com/user-attachments/assets/15f0da7b-cb30-4627-a472-861d5ec31e6e)
 ![image](https://github.com/user-attachments/assets/1489ea45-ce3a-4abf-874e-25c4ce66754b)
 
