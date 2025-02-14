@@ -39,6 +39,24 @@ Consists of several things:
 ![image](https://github.com/user-attachments/assets/15f0da7b-cb30-4627-a472-861d5ec31e6e)
 ![image](https://github.com/user-attachments/assets/1489ea45-ce3a-4abf-874e-25c4ce66754b)
 
+The only thing I'm not sure about - is support for nested quotes. Desktop / webk / mobile version have different behaviour related with this topic, my implementation uses stupid simple behaviour:
+
+In case if our selection does not contain blockquote then - pressing "quote" button will wrap selected text into blockquote.
+In case if our selection contains blockquote or laying inside of the blockquote, then we look for the first parent blockquote element, and then replace it with it's contents.
+This will not allow us to create nested blockquotes, but will allow us to properly handle the content inside of such blockquotes.
+
+![image](https://github.com/user-attachments/assets/d0beebf0-bc49-4251-b15e-90e7e31fc1af)
+
+Webk version splits the quote into quote + nonquote + quote html elements:
+
+![image](https://github.com/user-attachments/assets/de4c5ea5-1d72-4e18-aa75-9a48ec063d49)
+
+My implementation removes parent blockquote:
+
+![image](https://github.com/user-attachments/assets/d6d05af3-a951-4ddd-9faa-2cc4907098c0)
+
+![image](https://github.com/user-attachments/assets/19f66add-b85e-4d37-826a-b5fb2190d098)
+
 
 # Folders sidebar
 
