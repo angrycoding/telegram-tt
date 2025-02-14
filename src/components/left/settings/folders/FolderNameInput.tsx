@@ -1,3 +1,4 @@
+import useAppLayout from '../../../../hooks/useAppLayout';
 import useOldLang from '../../../../hooks/useOldLang';
 import type { FC } from '../../../../lib/teact/teact';
 import React, { memo, useRef, useState } from '../../../../lib/teact/teact';
@@ -6,6 +7,8 @@ import EmojiPicker from '../../../middle/composer/EmojiPicker';
 import Button from '../../../ui/Button';
 import DropdownMenu from '../../../ui/DropdownMenu';
 import InputText from '../../../ui/InputText';
+import Menu from '../../../ui/Menu';
+import Portal from '../../../ui/Portal';
 import createFolderIcon from '../../main/FoldersSidebar/createFolderIcon';
 import folderIcons from '../../main/FoldersSidebar/folderIcons';
 import styles from './FolderNameInput.module.scss';
@@ -53,9 +56,10 @@ const FolderNameInput: FC<OwnProps> = ({
 }) => {
 
 	const lang = useOldLang();
+	const { isMobile } = useAppLayout();
+	const [ menuShown, setMenuShown ] = useState(false);
 	const [ focused, setFocused ] = useState(false);
 	const inputRef = useRef<HTMLInputElement>(null);
-
 	const realLength = [...title].length;
 	const exceedLength = realLength >= maxLength;
 
@@ -73,32 +77,26 @@ const FolderNameInput: FC<OwnProps> = ({
 		
 		<div className={styles.innerWrapper}>
 
-			<DropdownMenu
-				trigger={props => (
-					<Button
-						tabIndex={-1}
-						round
-						color="translucent"
-						onClick={props.onTrigger}
-						ariaLabel="Choose emoji"
-						className={styles.button}
-						disabled={exceedLength}
-					>
-						<Icon name="smile" />
-					</Button>
-		  
-				)}
-				positionX="left"
-			>
-				<EmojiPicker
-					className={styles.pickerTab}
-					onEmojiSelect={(a, b) => {
-						document.execCommand('insertText', false, a);
+			<div>
+				<Button
+					tabIndex={-1}
+					round
+					color="translucent"
+					onClick={() => {
+						if (isMobile && menuShown) {
+							setMenuShown(false);
+						} else {
+							setMenuShown(true)
+						}
 					}}
-				/>
-			</DropdownMenu>
-
-
+					ariaLabel="Choose emoji"
+					className={styles.button}
+					disabled={exceedLength}
+				>
+					<Icon name={(isMobile && menuShown) ? 'keyboard' : 'smile'} />
+				</Button>
+			</div>
+		  
 			<input
 				type='text'
 				ref={inputRef}
@@ -109,30 +107,45 @@ const FolderNameInput: FC<OwnProps> = ({
 				onChange={e => onSetTitle(e.target.value)}
 			/>
 
+			<DropdownMenu trigger={props => <FolderIconButton {...props} icon={icon} />} positionX="right">
+				<div className={styles.emojiGridOuter}>
+					<div>{lang('Choose an icon')}</div>
+					<div className={styles.emojiGridInner} onClick={e => {
+						// @ts-ignore
+						const innerText = e.target.innerText || '';
+						if (innerText !== icon) {
+							onSetIcon(innerText);
+						}
+					}}>
 
-			<DropdownMenu
-				trigger={props => <FolderIconButton {...props} icon={icon} />}
-				positionX="right"
-				>
-					<div className={styles.emojiGridOuter}>
-						<div>{lang('Choose an icon')}</div>
-						<div className={styles.emojiGridInner} onClick={e => {
-							// @ts-ignore
-							const innerText = e.target.innerText || '';
-							if (innerText !== icon) {
-								onSetIcon(innerText);
-							}
-						}}>
+						{folderIcons.map(folderIcon => (
+							<div style={`--icon: url('${folderIcon}');`}>
+								{folderIcon.split(/[_.]/g).slice(-2).shift()}
+							</div>
+						))}
+						
+					</div>
+				</div>
+			</DropdownMenu>
 
-							{folderIcons.map(folderIcon => (
-								<div style={`--icon: url('${folderIcon}');`}>
-									{folderIcon.split(/[_.]/g).slice(-2).shift()}
-								</div>
-							))}
-							
+			{(isMobile && menuShown) ? (
+				<Portal>
+					<div className={'SymbolMenu mobile-menu left-column-open open shown'}>
+						<div className="SymbolMenu-main" onClick={e => e.stopPropagation()}>
+							<EmojiPicker onEmojiSelect={emoji => {
+								document.execCommand('insertText', false, emoji);
+								setMenuShown(false);
+							}} />
 						</div>
 					</div>
-				</DropdownMenu>
+				</Portal>
+			) : (
+				<Menu isOpen={menuShown} className={styles.emojiPickerMenu} onClose={() => setMenuShown(false)}>
+					<div className="SymbolMenu-main" onClick={e => e.stopPropagation()}>
+						<EmojiPicker onEmojiSelect={emoji => document.execCommand('insertText', false, emoji)} />
+					</div>
+				</Menu>
+			)}
 
 
 

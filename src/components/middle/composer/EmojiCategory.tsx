@@ -57,6 +57,7 @@ const EmojiCategory: FC<OwnProps> = ({
       key={category.id}
       id={`emoji-category-${index}`}
       className="symbol-set"
+      style={`--emojisPerRow: ${emojisPerRow};`}
     >
       <div className="symbol-set-header">
         <p className="symbol-set-name" dir="auto">

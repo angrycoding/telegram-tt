@@ -24,6 +24,7 @@
     margin-right: 8px;
     aspect-ratio: 1/1;
     height: calc(100% - 8px - 8px);
+    position: relative;
     .button {
       position: absolute;
       width: 100% !important;
@@ -54,12 +55,6 @@
     background-repeat: no-repeat;
     background-size: 85%;
   }
-}
-
-.pickerTab {
-  // width: 300px;
-  height: 300px;
-  overflow: auto;
 }
 
 .emojiGridOuter {
@@ -97,4 +92,13 @@
       background-color: rgba(gray, 1);
     }
   }
+}
+
+
+.emojiPickerMenu {
+  position: fixed;
+  z-index: 34444343;
+  align-self: flex-end;
+  justify-self: flex-end;
+  transform: translateY(100%);
 }
