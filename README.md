@@ -12,6 +12,8 @@ but:
 by all browsers despite that it's deprecated because of:
 4) currently it has no alternative because of undo stack.
 
+So obviously my fix is based on execCommand/insertHTML
+
 # Folders sidebar
 
 Desktop version has it's own set of folder icons: https://github.com/telegramdesktop/tdesktop/tree/dev/Telegram/Resources/icons/folders
