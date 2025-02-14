@@ -1,4 +1,13 @@
-# Ensure proper support for edit history (Ctrl+Z / Cmd+Z doesn’t work as intended as of now).
+# Rework the existing text editor from scratch and eliminate its imperfections
+
+I don't see any point of rewriting whole thing from scratch, because:
+
+- It's not that bad to throw it away
+- I don't have any requirements (like complete list of features)
+- I don't have any tests
+- Telegram team is looking for the good developers to join their team, and I guess being a good developer won't touch something that is already working in this case.
+
+## Ensure proper support for edit history (Ctrl+Z / Cmd+Z doesn’t work as intended as of now).
 
 Current implementation (existing, before my fixes) using getSelection / ranges to insert pasted text
 into the input field. Unfortunately this won't work in case if we need undo history. There are couple of alternatives of course:
