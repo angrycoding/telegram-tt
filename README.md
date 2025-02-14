@@ -1,3 +1,17 @@
+# Ensure proper support for edit history (Ctrl+Z / Cmd+Z doesn’t work as intended as of now).
+
+Current implementation (existing, before my fixes) using getSelection / ranges to insert pasted text
+into the input field. Unfortunately this won't work in case if we need undo history. There are couple of alternatives of course:
+- implement undo history stack manually, but this is bad idea because you'll basically have to recreate everything
+that browser already doing + make sure that you keep enough records in undo history without wasting the memory.
+- to use execCommand/insertHTML. This is deprecated: https://developer.mozilla.org/en-US/docs/Web/API/Document/execCommand
+but:
+1) it's all over the existing code base already
+2) there was no requirement in the contest's description - not to use it
+3) it's supported
+by all browsers despite that it's deprecated because of:
+4) currently it has no alternative because of undo stack.
+
 # Folders sidebar
 
 Desktop version has it's own set of folder icons: https://github.com/telegramdesktop/tdesktop/tree/dev/Telegram/Resources/icons/folders
