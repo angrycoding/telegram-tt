@@ -1,0 +1,296 @@
+[
+	{
+		"colors": [
+			"#dbddbb",
+			"#6ba587",
+			"#d5d88d",
+			"#88b884"
+		],
+		"pattern": "/patterns/pattern-1.svg"
+	},
+	{
+		"colors": [
+			"#87bda5",
+			"#b9dd83",
+			"#d5d88c",
+			"#a5c885"
+		],
+		"pattern": "/patterns/pattern-2.svg"
+	},
+	{
+		"colors": [
+			"#81a9f0",
+			"#9ed3f4",
+			"#aeded2",
+			"#c0c4ec"
+		],
+		"pattern": "/patterns/pattern-3.svg"
+	},
+	{
+		"colors": [
+			"#97beeb",
+			"#b1e9ea",
+			"#c6b1ef",
+			"#efb7dc"
+		],
+		"pattern": "/patterns/pattern-4.svg"
+	},
+	{
+		"colors": [
+			"#d1e395",
+			"#91d2cc",
+			"#76b8e6",
+			"#91d69a"
+		],
+		"pattern": "/patterns/pattern-5.svg"
+	},
+	{
+		"colors": [
+			"#ecae8e",
+			"#e8c583",
+			"#eba0c1",
+			"#c7b1eb"
+		],
+		"pattern": "/patterns/pattern-6.svg"
+	},
+	{
+		"colors": [
+			"#e998c3",
+			"#e9a4d6",
+			"#b79fe9",
+			"#ecb074"
+		],
+		"pattern": "/patterns/pattern-7.svg"
+	},
+	{
+		"colors": [
+			"#e99d57",
+			"#eed171",
+			"#ee9d68",
+			"#e0d07e"
+		],
+		"pattern": "/patterns/pattern-8.svg"
+	},
+	{
+		"colors": [
+			"#40cdde",
+			"#ac86ed",
+			"#e984d8",
+			"#efd359"
+		],
+		"pattern": "/patterns/pattern-9.svg"
+	},
+	{
+		"colors": [
+			"#dbddbb",
+			"#6ba587",
+			"#d5d88d",
+			"#88b884"
+		],
+		"pattern": "/patterns/pattern-10.svg"
+	},
+	{
+		"colors": [
+			"#40cdde",
+			"#ac86ed",
+			"#e984d8",
+			"#efd359"
+		],
+		"pattern": "/patterns/pattern-11.svg"
+	},
+	{
+		"colors": [
+			"#eaa36e",
+			"#f0e486",
+			"#f29ebf",
+			"#e8c06e"
+		],
+		"pattern": "/patterns/pattern-12.svg"
+	},
+	{
+		"colors": [
+			"#daeacb",
+			"#a2b4ff",
+			"#eccbff",
+			"#b9e2ff"
+		],
+		"pattern": "/patterns/pattern-13.svg"
+	},
+	{
+		"colors": [
+			"#7fc289",
+			"#e4d573",
+			"#afd677",
+			"#f0c07a"
+		],
+		"pattern": "/patterns/pattern-14.svg"
+	},
+	{
+		"colors": [
+			"#b2b1ee",
+			"#d4a7c9",
+			"#6c8cd4"
+		],
+		"pattern": "/patterns/pattern-15.svg"
+	},
+	{
+		"colors": [
+			"#a464f4",
+			"#edac4c",
+			"#e96caf",
+			"#f7dd6d"
+		],
+		"pattern": "/patterns/pattern-16.svg"
+	},
+	{
+		"colors": [
+			"#dceb92",
+			"#8fe1d6",
+			"#67a3f2",
+			"#85d685"
+		],
+		"pattern": "/patterns/pattern-17.svg"
+	},
+	{
+		"colors": [
+			"#fec496",
+			"#dd6cb9",
+			"#962fbf",
+			"#4f5bd5"
+		],
+		"pattern": "/patterns/pattern-18.svg"
+	},
+	{
+		"colors": [
+			"#73caff",
+			"#d5f7ff",
+			"#fb9ae5",
+			"#fbd9e6"
+		],
+		"pattern": "/patterns/pattern-19.svg"
+	},
+	{
+		"colors": [
+			"#8adbf2",
+			"#888dec",
+			"#e39fea",
+			"#679ced"
+		],
+		"pattern": "/patterns/pattern-20.svg"
+	},
+	{
+		"colors": [
+			"#b0cdeb",
+			"#9fb0ea",
+			"#bbead5",
+			"#b2e3dd"
+		],
+		"pattern": "/patterns/pattern-21.svg"
+	},
+	{
+		"colors": [
+			"#ffc3b2",
+			"#e2c0ff",
+			"#ffe7b2"
+		],
+		"pattern": "/patterns/pattern-22.svg"
+	},
+	{
+		"colors": [
+			"#97beeb",
+			"#b1e9ea",
+			"#c6b1ef",
+			"#efb7dc"
+		],
+		"pattern": "/patterns/pattern-23.svg"
+	},
+	{
+		"colors": [
+			"#e4b2ea",
+			"#8376c2",
+			"#eab9d9",
+			"#b493e6"
+		],
+		"pattern": "/patterns/pattern-24.svg"
+	},
+	{
+		"colors": [
+			"#d1a3e2",
+			"#edd594",
+			"#e5a1d0",
+			"#ecd893"
+		],
+		"pattern": "/patterns/pattern-25.svg"
+	},
+	{
+		"colors": [
+			"#8adbf2",
+			"#888dec",
+			"#e39fea",
+			"#679ced"
+		],
+		"pattern": "/patterns/pattern-26.svg"
+	},
+	{
+		"colors": [
+			"#7fa381",
+			"#fff5c5",
+			"#336f55",
+			"#fbe37d"
+		],
+		"pattern": "/patterns/pattern-27.svg"
+	},
+	{
+		"colors": [
+			"#fec496",
+			"#dd6cb9",
+			"#962fbf",
+			"#4f5bd5"
+		],
+		"pattern": "/patterns/pattern-28.svg"
+	},
+	{
+		"colors": [
+			"#faf4d2",
+			"#cea668",
+			"#ddb56d",
+			"#baa161"
+		],
+		"pattern": "/patterns/pattern-29.svg"
+	},
+	{
+		"colors": [
+			"#a4dbff",
+			"#009fdd",
+			"#527bdd"
+		],
+		"pattern": "/patterns/pattern-30.svg"
+	},
+	{
+		"colors": [
+			"#eaa36e",
+			"#f0e486",
+			"#f29ebf",
+			"#e8c06e"
+		],
+		"pattern": "/patterns/pattern-31.svg"
+	},
+	{
+		"colors": [
+			"#e4b2ea",
+			"#8376c2",
+			"#eab9d9",
+			"#b493e6"
+		],
+		"pattern": "/patterns/pattern-32.svg"
+	},
+	{
+		"colors": [
+			"#e4b2ea",
+			"#8376c2",
+			"#eab9d9",
+			"#b493e6"
+		],
+		"pattern": "/patterns/pattern-33.svg"
+	}
+]
