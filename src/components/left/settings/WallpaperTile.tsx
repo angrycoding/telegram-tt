@@ -30,6 +30,30 @@ type OwnProps = {
   onClick: (slug: string) => void;
 };
 
+export const WallpaperTileBase = (props: {
+  children?: any,
+  onClick?: () => void,
+  isSelected?:  boolean
+}) => {
+  
+
+
+  const { children, isSelected, onClick } = props;
+  
+  const className = buildClassName(
+    'WallpaperTile',
+    isSelected && 'selected',
+  );
+
+
+  return <div className={className} onClick={onClick}>
+    <div className="media-inner">
+      {children}
+    </div>
+  </div>
+
+}
+
 const WallpaperTile: FC<OwnProps> = ({
   wallpaper,
   theme,
@@ -88,32 +112,24 @@ const WallpaperTile: FC<OwnProps> = ({
     }
   }, [fullMedia, handleSelect]);
 
-  const className = buildClassName(
-    'WallpaperTile',
-    isSelected && 'selected',
-  );
 
-  return (
-    <div className={className} onClick={handleClick}>
-      <div className="media-inner">
-        <canvas
-          ref={thumbRef}
-          className="thumbnail"
-        />
-        <img
-          src={previewBlobUrl || localBlobUrl}
-          className={buildClassName('full-media', transitionClassNames)}
-          alt=""
-          draggable={false}
-        />
-        {shouldRenderSpinner && (
-          <div className={buildClassName('spinner-container', spinnerClassNames)}>
-            <ProgressSpinner progress={loadProgress} onClick={handleClick} />
-          </div>
-        )}
-      </div>
-    </div>
-  );
+  return <WallpaperTileBase isSelected={isSelected} onClick={handleClick}>
+      <canvas
+        ref={thumbRef}
+        className="thumbnail"
+      />
+      <img
+        src={previewBlobUrl || localBlobUrl}
+        className={buildClassName('full-media', transitionClassNames)}
+        alt=""
+        draggable={false}
+      />
+      {shouldRenderSpinner && (
+        <div className={buildClassName('spinner-container', spinnerClassNames)}>
+          <ProgressSpinner progress={loadProgress} onClick={handleClick} />
+        </div>
+      )}
+  </WallpaperTileBase>;
 };
 
 export default memo(WallpaperTile);
