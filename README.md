@@ -98,6 +98,29 @@ Disable sidebar buttons when in the search mode:
 ![image](https://github.com/user-attachments/assets/92ad743a-380c-42c0-afba-2ccc3954324f)
 
 
+# Bonus Task
+Add support for animated chat backgrounds as in other Telegram apps. For reference, check Telegram Web K (http://web.telegram.org/k) or this. (https://github.com/crashmax-dev/twallpaper-webgl)
+
+Done using this library: https://github.com/crashmax-dev/twallpaper and set of patterns found here: https://arif.thedev.id/blogs/stylish-svg-patterns-unveiling-telegram-s-beauty
+
+Animated backgrounds defined in **animatedBackgrounds.json** file.
+All patterns is located in **/public/patterns** directory.
+
+![image](https://github.com/user-attachments/assets/6490d78d-99a2-4930-8ff5-ef134b7c670b)
+
+Supports blur:
+
+![image](https://github.com/user-attachments/assets/9f11ee8d-2f0a-492a-aec0-d6f4a671d273)
+
+Animates on send message:
+
+![image](https://github.com/user-attachments/assets/39a3f08c-5c9f-41fe-ae19-4618fe643b16)
+
+![image](https://github.com/user-attachments/assets/5d02acc9-274d-41ba-9784-9fd030e215fc)
+
+
+
+
 --------------------------------------------------------------------------------
 
 # Telegram Web A
