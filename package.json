@@ -149,6 +149,7 @@
     "path-browserify": "^1.0.1",
     "qr-code-styling": "github:zubiden/qr-code-styling#dbbfed0",
     "replace-color": "^2.3.0",
+    "twallpaper": "^2.1.2",
     "v8-compile-cache": "^2.4.0"
   },
   "optionalDependencies": {
