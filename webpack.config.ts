@@ -14,9 +14,16 @@ import {
   NormalModuleReplacementPlugin,
   ProvidePlugin,
 } from 'webpack';
-
+import animatedBackgrounds from './animatedBackgrounds.json'
 import { PRODUCTION_URL } from './src/config';
 import { version as appVersion } from './package.json';
+
+const PUBLIC_DIR = path.resolve(__dirname, 'public');
+
+const ANIMATED_BACKGROUNDS = animatedBackgrounds.map(bg => ({
+  ...bg,
+  slug: JSON.stringify(bg)
+}))
 
 const {
   HEAD,
@@ -68,7 +75,7 @@ export default function createConfig(
       hot: false,
       static: [
         {
-          directory: path.resolve(__dirname, 'public'),
+          directory: PUBLIC_DIR,
         },
         {
           directory: path.resolve(__dirname, 'node_modules/emoji-data-ios'),
@@ -217,11 +224,13 @@ export default function createConfig(
       new DefinePlugin({
         
         FOLDER_ICONS: JSON.stringify(
-          fs.readdirSync(path.resolve(__dirname, 'public/folder-icons'))
+          fs.readdirSync(path.resolve(PUBLIC_DIR, 'folder-icons'))
           .sort((a, b) => parseInt(a) - parseInt(b))
           .filter(name => name.endsWith('.png'))
           .map(name => `/folder-icons/${name}`)
         ),
+
+        ANIMATED_BACKGROUNDS: JSON.stringify(ANIMATED_BACKGROUNDS),
 
         APP_VERSION: JSON.stringify(appVersion),
         APP_REVISION: DefinePlugin.runtimeValue(() => {
@@ -237,8 +246,8 @@ export default function createConfig(
         statsOptions: {
           context: __dirname,
         },
-        saveReportTo: path.resolve('./public/statoscope-report.html'),
-        saveStatsTo: path.resolve('./public/build-stats.json'),
+        saveReportTo: path.resolve(PUBLIC_DIR, 'statoscope-report.html'),
+        saveStatsTo: path.resolve(PUBLIC_DIR, 'build-stats.json'),
         normalizeStats: true,
         open: 'file',
         extensions: [new WebpackContextExtension()], // eslint-disable-line @typescript-eslint/no-use-before-define

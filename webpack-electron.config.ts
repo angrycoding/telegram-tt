@@ -1,11 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 import { EnvironmentPlugin, DefinePlugin } from 'webpack';
-
+import animatedBackgrounds from './animatedBackgrounds.json'
 import { PRODUCTION_URL } from './src/config';
 
 // GitHub workflow uses an empty string as the default value if it's not in repository variables, so we cannot define a default value here
 process.env.BASE_URL = process.env.BASE_URL || PRODUCTION_URL;
+
+const ANIMATED_BACKGROUNDS = animatedBackgrounds.map(bg => ({
+  ...bg,
+  slug: JSON.stringify(bg)
+}))
 
 const {
   APP_ENV = 'production',
@@ -39,6 +44,7 @@ export default {
     }),
 
     new DefinePlugin({
+      ANIMATED_BACKGROUNDS: JSON.stringify(ANIMATED_BACKGROUNDS),
       FOLDER_ICONS: JSON.stringify(
         fs.readdirSync(path.resolve(__dirname, 'public/folder-icons'))
         .sort((a, b) => parseInt(a) - parseInt(b))
