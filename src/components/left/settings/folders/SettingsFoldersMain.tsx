@@ -28,8 +28,9 @@ import Draggable from '../../../ui/Draggable';
 import ListItem from '../../../ui/ListItem';
 import Loading from '../../../ui/Loading';
 import Radio from '../../../ui/Radio';
-import { useFoldersSidebar } from '../../main/FoldersSidebar/FoldersSidebar';
+import { useFolderMonochromeIcons, useFoldersSidebar } from '../../main/FoldersSidebar/FoldersSidebar';
 import RadioGroup from '../../../ui/RadioGroup';
+import Checkbox from '../../../ui/Checkbox';
 
 type OwnProps = {
   isActive?: boolean;
@@ -75,6 +76,7 @@ const SettingsFoldersMain: FC<OwnProps & StateProps> = ({
   } = getActions();
 
   const [ showFoldersSidebar, setShowFoldersSidebar ] = useFoldersSidebar();
+  const [ showMonochromeIcons, setShowMonochromeIcons ] = useFolderMonochromeIcons();
 
   const [state, setState] = useState<SortState>({
     orderedFolderIds: folderIds,
@@ -391,6 +393,15 @@ const SettingsFoldersMain: FC<OwnProps & StateProps> = ({
             }]}
             onChange={value => setShowFoldersSidebar(value === 'left')}
           />
+
+          {showFoldersSidebar && (
+            <Checkbox
+              label={lang('Prefer monochrome icons')}
+              onChange={e => setShowMonochromeIcons(e.target.checked)}
+              checked={showMonochromeIcons}
+            />
+          )}
+
       </div>
 
 

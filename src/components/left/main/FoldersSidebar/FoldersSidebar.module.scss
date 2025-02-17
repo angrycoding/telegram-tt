@@ -98,37 +98,37 @@ $normalColor: #707478;
   min-height: $iconSize;
   max-width: $iconSize;
   max-height: $iconSize;
-  position: relative;
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-    color: currentColor;
-    font-size: calc($iconSize / 100 * 70);
-  }
-  &[style^='--maskicon']::before {
-    mask-image: var(--maskicon);
-    mask-position: center;
-    mask-repeat: no-repeat;
-    mask-size: contain;
-    background-color: currentColor;
-  }
-  &[style^='--bgicon']::before {
-    background-image: var(--bgicon);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-  }
-  &::after {
-    content: '';
-    position: absolute;
-    // border: 1px solid red;
-    inset: 0px;
-  }
+  // position: relative;
+  // &::before {
+  //   content: '';
+  //   position: absolute;
+  //   inset: 0px;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   align-content: center;
+  //   color: currentColor;
+  //   font-size: calc($iconSize / 100 * 70);
+  // }
+  // &[style^='--maskicon']::before {
+  //   mask-image: var(--maskicon);
+  //   mask-position: center;
+  //   mask-repeat: no-repeat;
+  //   mask-size: contain;
+  //   background-color: currentColor;
+  // }
+  // &[style^='--bgicon']::before {
+  //   background-image: var(--bgicon);
+  //   background-position: center;
+  //   background-repeat: no-repeat;
+  //   background-size: contain;
+  // }
+  // &::after {
+  //   content: '';
+  //   position: absolute;
+  //   // border: 1px solid red;
+  //   inset: 0px;
+  // }
 }
 
 // button's label

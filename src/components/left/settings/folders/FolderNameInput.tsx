@@ -9,7 +9,7 @@ import DropdownMenu from '../../../ui/DropdownMenu';
 import InputText from '../../../ui/InputText';
 import Menu from '../../../ui/Menu';
 import Portal from '../../../ui/Portal';
-import createFolderIcon from '../../main/FoldersSidebar/createFolderIcon';
+import FolderIcon from '../../main/FoldersSidebar/FolderIcon';
 import folderIcons from '../../main/FoldersSidebar/folderIcons';
 import styles from './FolderNameInput.module.scss';
 
@@ -33,14 +33,13 @@ const FolderIconButton: FC<{
 	<Button
 	  round
 	  tabIndex={-1}
-	  // ripple={!isMobile}
 	  size="smaller"
 	  color="translucent"
 	  className={`${styles.button} ${isOpen ? 'active' : ''}`}
 	  onClick={onTrigger}
 	  ariaLabel={lang('Choose an icon')}
 	>
-		<div className={styles.buttonIcon} style={createFolderIcon(icon)} />
+		<FolderIcon className={styles.buttonIcon} icon={icon} />
 	</Button>
   );
 };
@@ -112,17 +111,18 @@ const FolderNameInput: FC<OwnProps> = ({
 					<div>{lang('Choose an icon')}</div>
 					<div className={styles.emojiGridInner} onClick={e => {
 						// @ts-ignore
-						const innerText = e.target.innerText || '';
+						const innerText = e.target.dataset.icon || '';
 						if (innerText !== icon) {
 							onSetIcon(innerText);
 						}
 					}}>
 
-						{folderIcons.map(folderIcon => (
-							<div style={`--icon: url('${folderIcon}');`}>
-								{folderIcon.split(/[_.]/g).slice(-2).shift()}
-							</div>
-						))}
+						{folderIcons.map(folderIcon => <div>
+							<FolderIcon
+								icon={folderIcon.split(/[_.]/g).slice(-2).shift()}
+								data-icon={folderIcon.split(/[_.]/g).slice(-2).shift()}
+							/>
+						</div>)}
 						
 					</div>
 				</div>

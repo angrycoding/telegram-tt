@@ -1,5 +1,5 @@
 import type { FC } from '../../../../lib/teact/teact';
-import React, { memo, } from '../../../../lib/teact/teact';
+import React, { memo, useEffect } from '../../../../lib/teact/teact';
 import styles from './FoldersSidebar.module.scss';
 import { getActions, withGlobal } from "../../../../global";
 import { useFolderManagerForUnreadCounters } from "../../../../hooks/useFolderManager";
@@ -8,8 +8,7 @@ import useForceUpdate from '../../../../hooks/useForceUpdate';
 import { ApiChatFolder } from '../../../../api/types';
 import { selectTabState } from '../../../../global/selectors';
 import { SettingsScreens } from '../../../../types';
-import createFolderIcon from './createFolderIcon';
-import folderIcons from './folderIcons';
+import FolderIcon from './FolderIcon';
 
 type StateProps = {
   chatFoldersById: Record<number, ApiChatFolder>;
@@ -30,28 +29,24 @@ const ChatFolders: FC<StateProps> = ({
     getActions().setActiveChatFolder({ activeChatFolder: index });
   }
 
-  const allFoldersIcon = createFolderIcon('💬', true);
-    
   const folders = [{
     id: 0,
-    imageIcon: allFoldersIcon,
-    classIcon: !allFoldersIcon && 'icon-chats-badge',
+    icon: '💬',
     title: lang('FilterAllChats')
   }, ...(orderedFolderIds || []).map(id => {
     
     const folder = chatFoldersById?.[id];
     if (!folder) return;
 
-    const classIcon = (!folder.emoticon && (
-      folder.excludeRead && 'icon-comments-sticker' ||
-      folder.contacts && 'icon-user-filled'
-    ));
-
     return {
       id,
       title: folder.title.text,
-      classIcon,
-      imageIcon: !classIcon && createFolderIcon(folder.emoticon || '📁') || undefined,
+      icon: (
+        folder.emoticon ||
+        folder.excludeRead && '✅' ||
+        folder.contacts && '👤' || 
+        '📁'
+      )
     }
 
 
@@ -73,19 +68,15 @@ const ChatFolders: FC<StateProps> = ({
       {folders.map((folder, index) => (
         <div className={styles.button} onClick={() => setActiveFolder(index)} data-active={activeChatFolder === index} title={folder.title}>
           
-          <div
-            style={folder.imageIcon}
-            className={[
-              styles.icon,
-              folder.classIcon && `icon ${folder.classIcon}`
-            ].filter(Boolean).join(' ')}>
-
+          <FolderIcon
+            icon={folder.icon}
+            className={styles.icon}>
 
             {Boolean(folder.counter) && (
               <div className={styles.badge} data-value={folder.counter} />
             )}
             
-          </div>
+          </FolderIcon>
 
           <div className={styles.label}>{folder.title}</div>
 
@@ -95,7 +86,7 @@ const ChatFolders: FC<StateProps> = ({
       <div className={styles.spacer} />
 
       <div className={styles.button} title={lang('Filters')} onClick={() => getActions().requestNextSettingsScreen({ screen: SettingsScreens.Folders })}>
-        <div className={`${styles.icon} icon icon-settings`} />
+        <FolderIcon className={styles.icon} icon="⚙️" />
         <div className={styles.label}>{lang('Edit')}</div>
       </div>
       
@@ -107,18 +98,52 @@ export const useFoldersSidebar = (): [ boolean, (value: boolean) => void] => {
 
   const forceUpdate = useForceUpdate();
 
-  const update = (use: boolean) => {
-    if (use) {
+  const toggleAndTrigger = (newValue: boolean) => {
+    if (newValue) {
       localStorage.removeItem('foldersOnTop');
     } else {
       localStorage.setItem('foldersOnTop', '1');
     }
-    forceUpdate();
+    document.dispatchEvent(new Event('useFoldersSidebar'));
   }
+
+  useEffect(() => {
+    document.addEventListener('useFoldersSidebar', forceUpdate);
+    return () => {
+      document.removeEventListener('useFoldersSidebar', forceUpdate);
+    }
+  }, []);
+
 
   return [
     Boolean(!localStorage.getItem('foldersOnTop')),
-    update
+    toggleAndTrigger
+  ];
+}
+
+export const useFolderMonochromeIcons = (): [ boolean, (value: boolean) => void] => {
+
+  const forceUpdate = useForceUpdate();
+  
+  const toggleAndTrigger = (newValue: boolean) => {
+    if (newValue) {
+      localStorage.removeItem('folderColorIcons');
+    } else {
+      localStorage.setItem('folderColorIcons', '1');
+    }
+    document.dispatchEvent(new Event('useFolderMonochromeIcons'));
+  }
+
+  useEffect(() => {
+    document.addEventListener('useFolderMonochromeIcons', forceUpdate);
+    return () => {
+      document.removeEventListener('useFolderMonochromeIcons', forceUpdate);
+    }
+  }, []);
+
+  return [
+    Boolean(!localStorage.getItem('folderColorIcons')),
+    toggleAndTrigger
   ];
 }
 

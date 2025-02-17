@@ -1,0 +1,21 @@
+*::part(maskicon),
+*::part(bgicon) {
+	width: 100%;
+	height: 100%;
+}
+
+*::part(maskicon) {
+	mask-image: var(--icon);
+	mask-position: center;
+	mask-repeat: no-repeat;
+	mask-size: contain;
+	color: inherit;
+	background-color: currentColor;
+}
+
+*::part(bgicon) {
+	background-image: var(--icon);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: contain;
+}
