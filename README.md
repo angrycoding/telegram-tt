@@ -97,6 +97,12 @@ Disable sidebar buttons when in the search mode:
 
 ![image](https://github.com/user-attachments/assets/92ad743a-380c-42c0-afba-2ccc3954324f)
 
+Supports monochrome / color icons through the preference:
+
+![image](https://github.com/user-attachments/assets/24603c60-fddf-400e-82a4-d50c1cb3772c)
+
+![image](https://github.com/user-attachments/assets/3637ab33-b4ab-46bc-ad5b-7b13fb346219)
+
 
 # Bonus Task
 Add support for animated chat backgrounds as in other Telegram apps. For reference, check Telegram Web K (http://web.telegram.org/k) or this. (https://github.com/crashmax-dev/twallpaper-webgl)
