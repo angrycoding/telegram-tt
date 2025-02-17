@@ -100,6 +100,7 @@ import MiddleSearch from './search/MiddleSearch.async';
 
 import './MiddleColumn.scss';
 import styles from './MiddleColumn.module.scss';
+import AnimatedBackground, { animatedBackgrounds } from './AnimatedBackground';
 
 interface OwnProps {
   leftColumnRef: React.RefObject<HTMLDivElement>;
@@ -416,6 +417,7 @@ function MiddleColumn({
   });
 
   const customBackgroundValue = useCustomBackground(theme, customBackground);
+  const animatedBackground = animatedBackgrounds.find(bg => bg.slug === customBackground);
 
   const className = buildClassName(
     MASK_IMAGE_DISABLED ? 'mask-image-disabled' : 'mask-image-enabled',
@@ -489,10 +491,13 @@ function MiddleColumn({
         `--composer-translate-x: ${composerTranslateX}px`,
         `--toolbar-translate-x: ${toolbarTranslateX}px`,
         `--pattern-color: ${patternColor}`,
-        backgroundColor && `--theme-background-color: ${backgroundColor}`,
+        Boolean(!animatedBackground && backgroundColor) && `--theme-background-color: ${backgroundColor}`,
       )}
       onClick={(isTablet && isLeftColumnShown) ? handleTabletFocus : undefined}
     >
+
+      {animatedBackground && <AnimatedBackground {...animatedBackground} />}
+
       {isDesktop && (
         <div
           className="resize-handle"
@@ -501,10 +506,16 @@ function MiddleColumn({
           onDoubleClick={resetResize}
         />
       )}
-      <div
-        className={bgClassName}
-        style={customBackgroundValue ? `--custom-background: ${customBackgroundValue}` : undefined}
-      />
+
+      {!animatedBackground && (
+        <div
+          className={bgClassName}
+          style={customBackgroundValue ? `--custom-background: ${customBackgroundValue}` : undefined}
+        />
+      )}
+
+
+
       <div id="middle-column-portals" />
       {Boolean(renderingChatId && renderingThreadId) && (
         <>
