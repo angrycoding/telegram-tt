@@ -1068,6 +1068,8 @@ const Composer: FC<OwnProps & StateProps> = ({
 
       if (areEffectsSupported) saveEffectInDraft({ chatId, threadId, effectId: undefined });
 
+      document.dispatchEvent(new Event('sendMessageAction'));
+
       sendMessage({
         messageList: currentMessageList,
         text,

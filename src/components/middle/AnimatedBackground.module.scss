@@ -1,0 +1,18 @@
+.wrapper {
+	position: absolute;
+	inset: 0px;
+	pointer-events: none;
+	& > *:first-child {
+		position: absolute;
+		inset: 0px;
+		z-index: 0;
+	}
+	& > *:last-child {
+		position: absolute;
+		inset: 0px;
+		background-position: top left;
+		background-repeat: repeat;
+		z-index: 0;
+		mix-blend-mode: soft-light;
+	}
+}

@@ -161,7 +161,7 @@ const SettingsGeneralBackground: FC<OwnProps & StateProps> = ({
               isSelected={background === animatedBackground.slug}
               onClick={() => handleWallPaperSelect(animatedBackground.slug)}
             >
-              <AnimatedBackground {...animatedBackground} />
+              <AnimatedBackground {...animatedBackground} thumbnail />
             </WallpaperTileBase>
           ))}
 

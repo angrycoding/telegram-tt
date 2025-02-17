@@ -496,7 +496,7 @@ function MiddleColumn({
       onClick={(isTablet && isLeftColumnShown) ? handleTabletFocus : undefined}
     >
 
-      {animatedBackground && <AnimatedBackground {...animatedBackground} />}
+      {animatedBackground && <AnimatedBackground {...animatedBackground} doBlur={isBackgroundBlurred} />}
 
       {isDesktop && (
         <div
