@@ -21,9 +21,10 @@ import useOldLang from '../../../hooks/useOldLang';
 import Checkbox from '../../ui/Checkbox';
 import ListItem from '../../ui/ListItem';
 import Loading from '../../ui/Loading';
-import WallpaperTile from './WallpaperTile';
+import WallpaperTile, { WallpaperTileBase } from './WallpaperTile';
 
 import './SettingsGeneralBackground.scss';
+import AnimatedBackground, { animatedBackgrounds } from '../../middle/AnimatedBackground';
 
 type OwnProps = {
   isActive?: boolean;
@@ -153,6 +154,18 @@ const SettingsGeneralBackground: FC<OwnProps & StateProps> = ({
 
       {loadedWallpapers ? (
         <div className="settings-wallpapers">
+
+          {animatedBackgrounds.map((animatedBackground) => (
+            <WallpaperTileBase
+              key={animatedBackground.slug}
+              isSelected={background === animatedBackground.slug}
+              onClick={() => handleWallPaperSelect(animatedBackground.slug)}
+            >
+              <AnimatedBackground {...animatedBackground} />
+            </WallpaperTileBase>
+          ))}
+
+
           {loadedWallpapers.map((wallpaper) => (
             <WallpaperTile
               key={wallpaper.slug}
