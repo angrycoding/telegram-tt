@@ -37,13 +37,7 @@ const createFolderIcon = (emoticon: any, preferMonochromeIcons: boolean) => {
 		svgEl.setAttribute('viewBox', `0 0 ${rect.width} ${rect.height}`);
 		svgEl.firstElementChild?.setAttribute('x', String(100 / 2 - rect.x));
 		svgEl.firstElementChild?.setAttribute('y', String(100 / 2 - rect.y));
-
-		svgEl.style.position = '';
-		svgEl.style.top = '';
-		svgEl.style.left = '';
-
 		const string = new XMLSerializer().serializeToString(svgEl);
-
 		result = {bgicon: `url("data:image/svg+xml;utf8,${encodeURIComponent(string)}")`};
 
   
