@@ -108,6 +108,7 @@ Supports monochrome / color icons through the preference:
 Add support for animated chat backgrounds as in other Telegram apps. For reference, check Telegram Web K (http://web.telegram.org/k) or this. (https://github.com/crashmax-dev/twallpaper-webgl)
 
 Done using this library: https://github.com/crashmax-dev/twallpaper and set of patterns found here: https://arif.thedev.id/blogs/stylish-svg-patterns-unveiling-telegram-s-beauty
+Colors are taken from Telegram Web K version.
 
 Animated backgrounds defined in **animatedBackgrounds.json** file.
 All patterns is located in **/public/patterns** directory.
