@@ -20,11 +20,6 @@ import { version as appVersion } from './package.json';
 
 const PUBLIC_DIR = path.resolve(__dirname, 'public');
 
-const ANIMATED_BACKGROUNDS = animatedBackgrounds.map(bg => ({
-  ...bg,
-  slug: JSON.stringify(bg)
-}))
-
 const {
   HEAD,
   APP_ENV = 'production',
@@ -230,7 +225,10 @@ export default function createConfig(
           .map(name => `/folder-icons/${name}`)
         ),
 
-        ANIMATED_BACKGROUNDS: JSON.stringify(ANIMATED_BACKGROUNDS),
+        ANIMATED_BACKGROUNDS: JSON.stringify(animatedBackgrounds.map(bg => ({
+          ...bg,
+          slug: JSON.stringify(bg)
+        }))),
 
         APP_VERSION: JSON.stringify(appVersion),
         APP_REVISION: DefinePlugin.runtimeValue(() => {
