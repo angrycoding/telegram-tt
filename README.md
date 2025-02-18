@@ -124,8 +124,3 @@ Animates on send message:
 ![image](https://github.com/user-attachments/assets/39a3f08c-5c9f-41fe-ae19-4618fe643b16)
 
 ![image](https://github.com/user-attachments/assets/5d02acc9-274d-41ba-9784-9fd030e215fc)
-
-* fastblur
-
-## Bug reports and Suggestions
-If you find an issue with this app, let Telegram know using the [Suggestions Platform](https://bugs.telegram.org/c/4002).
