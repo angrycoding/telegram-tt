@@ -131,11 +131,9 @@ Animates on send message:
 As the requirement is to provide an archive with the dist folder with the build... and because of my previous experience with it when I've got a penalty because Telegram team had to rebuild my submission...
 This time I've decided to record screencast with complete build from the beginning and until running an app from the dist folder:
 
-Click to watch the video on youtube:
+**please CLICK ON PREVIEW IMAGE TO go to youtube and watch it:**
 
-![image](https://github.com/user-attachments/assets/742f82c0-f90d-48a5-8a7d-f792beafb505)
-
-https://youtu.be/P5OUmbgBYnk
+[<img src="https://github.com/user-attachments/assets/742f82c0-f90d-48a5-8a7d-f792beafb505">](https://youtu.be/P5OUmbgBYnk)
 
 I'm doing all this not because "WELL IT'S WORKING FOR ME, THEN I DON'T CARE", but because:
 
