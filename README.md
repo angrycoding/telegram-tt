@@ -124,3 +124,17 @@ Animates on send message:
 ![image](https://github.com/user-attachments/assets/39a3f08c-5c9f-41fe-ae19-4618fe643b16)
 
 ![image](https://github.com/user-attachments/assets/5d02acc9-274d-41ba-9784-9fd030e215fc)
+
+
+# Build Proof
+
+As the requirement is to provide an archive with the dist folder with the build... and because of my previous experience with it when I've got a penalty because Telegram team had to rebuild my submission...
+This time I've decided to record screencast with complete build from the beginning and until running an app from the dist folder:
+
+Click to watch the video on youtube:
+[![Everything Is AWESOME]([https://i.sstatic.net/q3ceS.png](https://github.com/user-attachments/assets/45686abc-98c5-4e63-b662-018489c0e6f1))](https://youtu.be/P5OUmbgBYnk)
+
+I'm doing all this not because "WELL IT'S WORKING FOR ME, THEN I DON'T CARE", but because:
+
+I'm not the one who create this build script, who setup the project or who maintain it. Neither of contest tasks was mentioning something about fixing the webpack configuration or build script.
+So I'm just running npm run ```build:dev``` and hope that the build artifacts produced in the dist folder will work for you as well as it's working for me.
