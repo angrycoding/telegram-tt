@@ -4,6 +4,169 @@ import { ApiMessageEntityTypes } from '../api/types';
 import { RE_LINK_TEMPLATE } from '../config';
 import { IS_EMOJI_SUPPORTED } from './windowEnvironment';
 
+
+const MARKDOWN_TAGS: {[key: string]: any} = {
+	'**': {
+		open: '<b>',
+		close: '</b>'
+	},
+	'~~': {
+		open: '<s>',
+		close: '</s>'
+	},
+	'_': {
+		open: '<i>',
+		close: '</i>'
+	},
+	'__': {
+		open: '<u>',
+		close: '</u>'
+	},
+	'||': {
+		open: `<span data-entity-type="${ApiMessageEntityTypes.Spoiler}">`,
+		close: '</span>'
+	}
+}
+
+const Tokenizer = class {
+
+	public input: string = '';
+	private inputLen: number = 0;
+	private buffer: any[] = [];
+	private regexp: RegExp = new RegExp('');
+
+	private static REGEXP_ESCAPE = /([.?*+^$[\]\\(){}|-])/g;
+
+	private static tokenToString = (value: RegExp | string) => {
+		if (value instanceof RegExp) {
+			value = value.toString().split('/').slice(1, -1).join('/')
+		} else {
+			value = value.replace(Tokenizer.REGEXP_ESCAPE, '\\$1')
+		}
+		return value;
+	}
+	
+	constructor(...tokens: Array<string | RegExp>) {
+		tokens = tokens.map(Tokenizer.tokenToString);
+		tokens = tokens.sort((a, b) => String(b).length - String(a).length);
+		this.regexp = new RegExp(tokens.map(token => '(' + token + ')').join('|'), 'g');
+	}
+
+	init = (input: string) => {
+		this.input = input;
+		this.inputLen = input.length;
+		this.regexp.lastIndex = 0;
+		this.buffer.splice(0, Infinity);
+	}
+
+	private ensureToken = () => {
+
+		const { regexp, buffer, input, inputLen } = this;
+
+		if (buffer.length) return;
+
+		const startPos = regexp.lastIndex;
+
+		const match = regexp.exec(input);
+		if (match) {
+
+			const matchText = match[0];
+			const matchIndex = match.index;
+			const escape = (input[matchIndex - 1] === '\\');
+
+			if (escape) {
+				buffer.push(input.slice(startPos, matchIndex + matchText.length));
+			}
+			
+			else {
+				if (startPos < matchIndex) {
+					buffer.push(input.slice(startPos, matchIndex));
+				}
+
+				buffer.push(matchText);
+			}
+
+
+		}
+
+		else {
+			regexp.lastIndex = inputLen;
+			buffer.push(input.slice(startPos));
+		}
+		
+	}
+
+
+	next = () => {
+		this.ensureToken();
+		return this.buffer.shift()
+	}
+
+}
+
+const tokenizer = new Tokenizer(...Object.keys(MARKDOWN_TAGS));
+
+
+const parseMarkdown = (parsedHtml: string) => {
+
+	tokenizer.init(parsedHtml);
+
+	let token: any;
+
+	const result: Array<{
+		kind: 'starting' | 'start' | 'end' | 'data',
+		data: string,
+	}> = []
+
+	while (token = tokenizer.next()) {
+
+		const tag = (MARKDOWN_TAGS[token] && token);
+		const openingTag = tag && result.find(item => item.kind === 'starting' && item.data === token);
+
+		if (tag && !openingTag) {
+			result.push({
+				kind: 'starting',
+				data: token
+			});
+		}
+
+		else if (tag === '`' && openingTag) {
+
+			openingTag.kind = 'start'
+
+			result.push({
+				...openingTag,
+				kind: 'end'
+			});
+
+
+		}
+
+		else if (tag && openingTag) {
+			openingTag.kind = 'start'
+			result.push({
+				...openingTag,
+				kind: 'end'
+			});
+		}
+
+		else {
+			result.push({
+				kind: 'data',
+				data: token
+			});
+		}
+
+	}
+
+	return result.map(item => {
+		if (item.kind === 'start') return MARKDOWN_TAGS[item.data].open;
+		if (item.kind === 'end') return MARKDOWN_TAGS[item.data].close;
+		return item.data;
+	}).join('');
+
+}
+
 export const ENTITY_CLASS_BY_NODE_NAME: Record<string, ApiMessageEntityTypes> = {
   B: ApiMessageEntityTypes.Bold,
   STRONG: ApiMessageEntityTypes.Bold,
@@ -25,8 +188,15 @@ export default function parseHtmlAsFormattedText(
   html: string, withMarkdownLinks = false, skipMarkdown = false,
 ): ApiFormattedText {
   const fragment = document.createElement('div');
-  fragment.innerHTML = skipMarkdown ? html
-    : withMarkdownLinks ? parseMarkdown(parseMarkdownLinks(html)) : parseMarkdown(html);
+  
+  if (skipMarkdown) {
+    fragment.innerHTML = html;
+  } else {
+    fragment.innerHTML = withMarkdownLinks ? parseMarkdownLinks(html) : html;
+    processMarkdown(fragment);
+  }
+
+
   fixImageContent(fragment);
   const text = fragment.innerText.trim().replace(/\u200b+/g, '');
   const trimShift = fragment.innerText.indexOf(text[0]);
@@ -76,62 +246,64 @@ export function fixImageContent(fragment: HTMLDivElement) {
   });
 }
 
-function parseMarkdown(html: string) {
-  let parsedHtml = html.slice(0);
 
+
+
+function processMarkdown(htmlElement: HTMLElement) {
+
+  let { innerHTML } = htmlElement;
+
+  innerHTML = innerHTML
+  
   // Strip redundant nbsp's
-  parsedHtml = parsedHtml.replace(/&nbsp;/g, ' ');
+  .replace(/&nbsp;/g, ' ')
 
   // Replace <div><br></div> with newline (new line in Safari)
-  parsedHtml = parsedHtml.replace(/<div><br([^>]*)?><\/div>/g, '\n');
+  .replace(/<div><br([^>]*)?><\/div>/g, '\n')
+  
   // Replace <br> with newline
-  parsedHtml = parsedHtml.replace(/<br([^>]*)?>/g, '\n');
-
+  .replace(/<br([^>]*)?>/g, '\n')
+  
   // Strip redundant <div> tags
-  parsedHtml = parsedHtml.replace(/<\/div>(\s*)<div>/g, '\n');
-  parsedHtml = parsedHtml.replace(/<div>/g, '\n');
-  parsedHtml = parsedHtml.replace(/<\/div>/g, '');
+  .replace(/<\/div>(\s*)<div>/g, '\n')
+  .replace(/<div>/g, '\n')
+  .replace(/<\/div>/g, '')
 
   // Pre
-  parsedHtml = parsedHtml.replace(/^`{3}(.*?)[\n\r](.*?[\n\r]?)`{3}/gms, '<pre data-language="$1">$2</pre>');
-  parsedHtml = parsedHtml.replace(/^`{3}[\n\r]?(.*?)[\n\r]?`{3}/gms, '<pre>$1</pre>');
-  parsedHtml = parsedHtml.replace(/[`]{3}([^`]+)[`]{3}/g, '<pre>$1</pre>');
-
+  .replace(/^`{3}(.*?)[\n\r](.*?[\n\r]?)`{3}/gms, '<pre data-language="$1">$2</pre>')
+  .replace(/^`{3}[\n\r]?(.*?)[\n\r]?`{3}/gms, '<pre>$1</pre>')
+  .replace(/[`]{3}([^`]+)[`]{3}/g, '<pre>$1</pre>')
+  
   // Code
-  parsedHtml = parsedHtml.replace(
-    /(?!<(code|pre)[^<]*|<\/)[`]{1}([^`\n]+)[`]{1}(?![^<]*<\/(code|pre)>)/g,
-    '<code>$2</code>',
-  );
+  .replace(/(?!<(code|pre)[^<]*|<\/)[`]{1}([^`\n]+)[`]{1}(?![^<]*<\/(code|pre)>)/g, '<code>$2</code>')
+
+  .replace(
+    /(?!<(?:code|pre)[^<]*|<\/)\[([^\]\n]+)\]\(customEmoji:(\d+)\)(?![^<]*<\/(?:code|pre)>)/g,
+    '<img alt="$1" data-document-id="$2">',
+  )
 
   // Custom Emoji markdown tag
   if (!IS_EMOJI_SUPPORTED) {
     // Prepare alt text for custom emoji
-    parsedHtml = parsedHtml.replace(/\[<img[^>]+alt="([^"]+)"[^>]*>]/gm, '[$1]');
+    innerHTML = innerHTML.replace(/\[<img[^>]+alt="([^"]+)"[^>]*>]/gm, '[$1]');
   }
-  parsedHtml = parsedHtml.replace(
-    /(?!<(?:code|pre)[^<]*|<\/)\[([^\]\n]+)\]\(customEmoji:(\d+)\)(?![^<]*<\/(?:code|pre)>)/g,
-    '<img alt="$1" data-document-id="$2">',
-  );
 
-  // Other simple markdown
-  parsedHtml = parsedHtml.replace(
-    /(?!<(code|pre)[^<]*|<\/)[*]{2}([^*\n]+)[*]{2}(?![^<]*<\/(code|pre)>)/g,
-    '<b>$2</b>',
-  );
-  parsedHtml = parsedHtml.replace(
-    /(?!<(code|pre)[^<]*|<\/)[_]{2}([^_\n]+)[_]{2}(?![^<]*<\/(code|pre)>)/g,
-    '<i>$2</i>',
-  );
-  parsedHtml = parsedHtml.replace(
-    /(?!<(code|pre)[^<]*|<\/)[~]{2}([^~\n]+)[~]{2}(?![^<]*<\/(code|pre)>)/g,
-    '<s>$2</s>',
-  );
-  parsedHtml = parsedHtml.replace(
-    /(?!<(code|pre)[^<]*|<\/)[|]{2}([^|\n]+)[|]{2}(?![^<]*<\/(code|pre)>)/g,
-    `<span data-entity-type="${ApiMessageEntityTypes.Spoiler}">$2</span>`,
-  );
 
-  return parsedHtml;
+
+
+  const walker = document.createTreeWalker(htmlElement, NodeFilter.SHOW_TEXT);
+  while(walker.nextNode()) {
+    const node = walker.currentNode;
+    const { textContent, parentElement } = node;
+    if (!textContent || !parentElement || parentElement.closest('code,pre')) continue;
+
+    if (node instanceof Text) {
+      const tpl = document.createElement('template');
+      tpl.innerHTML = parseMarkdown(textContent);
+      node.replaceWith(tpl.content)
+    }
+
+  }
 }
 
 function parseMarkdownLinks(html: string) {
