@@ -7,6 +7,50 @@ I don't see any point of rewriting whole thing from scratch, because:
 - I don't have any tests
 - Telegram team is looking for the good developers to join their team, and I guess being a good developer won't touch something that is already working in this case.
 
+
+# Add support for Markdown syntax.
+### Currently, RegExp is used for parsing Markdown, which sometimes causes glitches. Implement an AST-based approach to support all Telegram formatting entities more reliably.
+
+My solution introduces "classical" tokenization / parsing process. However AST-based approach is not applicable here, because markdown is not the language which is parsed
+using for instance recursive descent parser or so, instead it's usually processed using regexps, but yeah, well I did my best, I've made lexer / scanner, it tokenizes an input,
+it properly handles nested tags (which wasn't implemented).
+
+![image](https://github.com/user-attachments/assets/12fc308d-d13c-48bc-802b-f2e3e0836504)
+
+Support nested tags:
+
+![image](https://github.com/user-attachments/assets/33330cc8-6023-4d2c-bd13-d5a87eda2228)
+
+Automatically fixes incorrectly paired closing / opening tags:
+
+![image](https://github.com/user-attachments/assets/5cadb856-6e51-45a3-9871-2d0e7adf9dbf)
+
+Fixes some of the bugs / inconsistencies in existing implementations:
+
+https://core.telegram.org/bots/api#markdownv2-style
+
+![image](https://github.com/user-attachments/assets/8cd49779-e0f7-47c3-8e9c-9481b019fa0f)
+
+![image](https://github.com/user-attachments/assets/1805f44d-1627-48fd-b4c4-25e41917eb2e)
+
+Not attempting to process incomplete markdown:
+
+![image](https://github.com/user-attachments/assets/3e1a2ee3-322d-4e62-b69e-fa2c817dc387)
+
+
+However I didn't follow exact markdown syntax specified here: https://core.telegram.org/bots/api#markdownv2-style
+
+```* BOLD *```
+```~ STRIKETHROUGH ~```
+
+And so on, because desktop client behaves differently, it uses ```** BOLD **``` and ```~~STRIKE~~``` and I guess there is a reason for this,
+if markdown would use single char tags, then it will be really easy to screw everything up in the strings like "10 * 2 = 20 * 1" and so on.
+So my solution uses same two characters as tags (**, ~~, __, _, ||).
+
+Main problem / difficulty in implementing this task is missing requirements. Markdown syntax on github is one thing, markdown syntax in Obsidian is another thing,
+Telegram desktop uses it's own version, web client uses another, bot api is using something different. So I was trying to come up with something that would cover 
+contest requirements + be as much compatible with the current implementations as possible.
+
 ## Ensure proper support for edit history (Ctrl+Z / Cmd+Z doesn’t work as intended as of now).
 
 Current implementation (existing, before my fixes) using getSelection / ranges to insert pasted text
@@ -124,3 +168,18 @@ Animates on send message:
 ![image](https://github.com/user-attachments/assets/39a3f08c-5c9f-41fe-ae19-4618fe643b16)
 
 ![image](https://github.com/user-attachments/assets/5d02acc9-274d-41ba-9784-9fd030e215fc)
+
+
+# Build Proof
+
+As the requirement is to provide an archive with the dist folder with the build... and because of my previous experience with it when I've got a penalty because Telegram team had to rebuild my submission...
+This time I've decided to record screencast with complete build from the beginning and until running an app from the dist folder:
+
+**please CLICK ON PREVIEW IMAGE TO go to youtube and watch it:**
+
+[<img src="https://github.com/user-attachments/assets/742f82c0-f90d-48a5-8a7d-f792beafb505">](https://youtu.be/P5OUmbgBYnk)
+
+I'm doing all this not because "WELL IT'S WORKING FOR ME, THEN I DON'T CARE", but because:
+
+I'm not the one who create this build script, who setup the project or who maintain it. Neither of contest tasks was mentioning something about fixing the webpack configuration or build script.
+So I'm just running npm run ```build:dev``` and hope that the build artifacts produced in the dist folder will work for you as well as it's working for me.
